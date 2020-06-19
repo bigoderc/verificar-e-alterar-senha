@@ -56,7 +56,7 @@
 		  })
 		}
 	
-		function mostrarNovaSenha2() {
+		function mostrarConfirmarSenha() {
 		  var tipo3 = document.getElementById('confirmar_senha')
 		  document.getElementById('pass2').addEventListener('click', () => {
 		    if (tipo3.value) {
@@ -151,7 +151,7 @@
   		<i class="fa fa-eye-slash" id="pass1" aria-hidden="true" title="Mostrar a nova senha"></i>
 		</p>
 		<p> Redigite a nova senha:
-  		<input type="password" name="confirmar_senha" id="confirmar_senha" title="Campo para inserir novamente a nova senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarNovaSenha2()">
+  		<input type="password" name="confirmar_senha" id="confirmar_senha" title="Campo para inserir novamente a nova senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarConfirmarSenha()">
   		<i class="fa fa-eye" id="text2" aria-hidden="true" title="Ocultar a nova senha"></i>
   		<i class="fa fa-eye-slash" id="pass2" aria-hidden="true" title="Mostrar a nova senha"></i>
 		</p>
