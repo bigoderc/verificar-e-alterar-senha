@@ -16,7 +16,7 @@
 	</script>
 	<script>
 		function mostrarSenha() {
-	  		var tipo = document.getElementById('senha_atual')
+	  		var tipo = document.getElementById('senha')
 	  		document.getElementById('pass').addEventListener('click', () => {
 		    if (tipo.value) {
 		      tipo.type == 'password' ? tipo.type = 'text' : tipo.type = 'password';
@@ -97,26 +97,32 @@
 		if(isset($_POST['Atualizar'])){
 			// Especifica a variável 
 			$cd_funcionario = $_POST['cd_funcionario'];
-			$senha_atual = $_POST['senha_atual']; 
+			$senha = $_POST['senha']; 
 			$senha_nova = $_POST['senha_nova'];
 			$confirmar_senha = $_POST['confirmar_senha'];
 			// Faz a seleção das senhas dos funcionário pelo ID
-			$selecao = "SELECT senha FROM funcionario WHERE senha = '".$cd_funcionario."'";
+			$selecao = "SELECT senha FROM funcionario WHERE senha = '$cd_funcionario'";
 			// $seleciona_dados recebe $conexao que prepare a operação para selecionar
-    		$seleciona_dados = $conexao->prepare($selecao);
+    		        $seleciona_dados = $conexao->prepare($selecao);
+    		        // Vincula um valor a um parâmetro
+    		        $seleciona_dados->bindValue(':cd_funcionario',$cd_funcionario);
+			$seleciona_dados->bindValue(':senha',$senha);
+			$seleciona_dados->bindValue(':senha_nova',$senha_nova);
+			$seleciona_dados->bindValue(':confirmar_senha',$confirmar_senha);
 			// Executa a operação
 			$seleciona_dados->execute();
 			// Retorna uma matriz contendo todas as linhas do conjunto de resultados
 			$linhas = $seleciona_dados->fetchAll(PDO::FETCH_ASSOC);
-			// $
-			$senha_mysql = $linhas['senha']; // O ERRO ESTÁ AQUI
+			print_r($linhas); // Apenas retorna "Array ()"
+			$senha_mysql = $linhas[0]['senha']; 
+
 			try {
 				// Se a $senha_atual for diferente de $senha_mysql e a $senha_nova for diferente de $confirmar_senha
-				if (($senha_atual != $senha_mysql) || ($senha_nova != $confirmar_senha)){
+				if (($senha != $senha_mysql) || ($senha_nova != $confirmar_senha)){
 						echo "Senha inválida, tente novamente";
 				// Senão
 				}else{
-					if (($update = "UPDATE funcionario SET senha = '".$confirmar_senha."' WHERE cd_funcionario = '".$cd_funcionario."'")) {
+					if ($update = "UPDATE funcionario SET senha = '$confirmar_senha' WHERE cd_funcionario = '$cd_funcionario'") {
            				echo "Senha atualizada com sucesso!";
             		}
 				}	
@@ -141,7 +147,7 @@
 		</select>
 		</p>
 		<p> Senha atual:
-  		<input type="password" name="senha_atual" id="senha_atual" title="Campo para inserir a antiga senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarSenha()">
+  		<input type="password" name="senha" id="senha" title="Campo para inserir a antiga senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarSenha()">
   		<i class="fa fa-eye" id="text" aria-hidden="true" title="Ocultar antiga senha"></i>
   		<i class="fa fa-eye-slash" id="pass" aria-hidden="true" title="Mostrar antiga senha"></i>
 		</p>
