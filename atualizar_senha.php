@@ -113,8 +113,8 @@
 			$seleciona_dados->execute();
 			// Retorna uma matriz contendo todas as linhas do conjunto de resultados
 			$linhas = $seleciona_dados->fetchAll(PDO::FETCH_ASSOC);
-			print_r($linhas); // Apenas retorna "Array ()"
-			$senha_mysql = $linhas[0]['senha']; 
+			print_r($linhas); // Apenas retorna "Array ()" no navegador
+			$senha_mysql = $linhas[0]['senha'];
 
 			try {
 				// Se a $senha_atual for diferente de $senha_mysql e a $senha_nova for diferente de $confirmar_senha
@@ -148,8 +148,8 @@
 		</p>
 		<p> Senha atual:
   		<input type="password" name="senha" id="senha" title="Campo para inserir a antiga senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarSenha()">
-  		<i class="fa fa-eye" id="text" aria-hidden="true" title="Ocultar antiga senha"></i>
-  		<i class="fa fa-eye-slash" id="pass" aria-hidden="true" title="Mostrar antiga senha"></i>
+  		<i class="fa fa-eye" id="text" aria-hidden="true" title="Ocultar senha atual"></i>
+  		<i class="fa fa-eye-slash" id="pass" aria-hidden="true" title="Mostrar senha atual"></i>
 		</p>
 		<p> Nova senha:
   		<input type="password" name="senha_nova" id="senha_nova" title="Campo para inserir a nova senha de login do funcionário" size="30" maxlength="32" required="" onclick="mostrarNovaSenha()">
