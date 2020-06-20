@@ -16,6 +16,7 @@
 	</script>
 	<script>
 		function mostrarSenha() {
+			// JS do font-awesome para campo de Senha atual
 	  		var tipo = document.getElementById('senha')
 	  		document.getElementById('pass').addEventListener('click', () => {
 		    if (tipo.value) {
@@ -37,6 +38,7 @@
 		}
 	
 		function mostrarNovaSenha() {
+		  // JS do font-awesome para campo de Nova senha
 		  var tipo2 = document.getElementById('senha_nova')
 		  document.getElementById('pass1').addEventListener('click', () => {
 		    if (tipo2.value) {
@@ -57,6 +59,7 @@
 		}
 	
 		function mostrarConfirmarSenha() {
+		  // JS do font-awesome para campo de Redigite a nova senha
 		  var tipo3 = document.getElementById('confirmar_senha')
 		  document.getElementById('pass2').addEventListener('click', () => {
 		    if (tipo3.value) {
@@ -113,7 +116,7 @@
 			$seleciona_dados->execute();
 			// Retorna uma matriz contendo todas as linhas do conjunto de resultados
 			$linhas = $seleciona_dados->fetchAll(PDO::FETCH_ASSOC);
-			print_r($linhas); // Apenas retorna "Array ()" no navegador
+			print_r($linhas); // Retorna Array () no navegador
 			$senha_mysql = $linhas[0]['senha'];
 
 			try {
