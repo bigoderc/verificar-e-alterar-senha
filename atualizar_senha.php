@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<title> Atualizar senha </title>
-	<link rel="stylesheet" href="/WEB/css/css.css">
+	<link rel="stylesheet" href="css.css">
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 	<script>
 		// JS que exibe uma mensagem personalizada depois da atualização
@@ -95,7 +95,7 @@
 <body>
 	<?php
 		// Inclusão do arquivo conexao.php ao update_funcionario.php
-		require_once '../conexao/conexao.php';  
+		require_once 'conexao.php';  
 		// Se existir o botão de Atualizar
 		if(isset($_POST['Atualizar'])){
 			// Especifica a variável 
@@ -104,20 +104,12 @@
 			$senha_nova = $_POST['senha_nova'];
 			$confirmar_senha = $_POST['confirmar_senha'];
 			// Faz a seleção das senhas dos funcionário pelo ID
-			$selecao = "SELECT senha FROM funcionario WHERE senha = '$cd_funcionario'";
-			// $seleciona_dados recebe $conexao que prepare a operação para selecionar
-    		        $seleciona_dados = $conexao->prepare($selecao);
-    		        // Vincula um valor a um parâmetro
-    		        $seleciona_dados->bindValue(':cd_funcionario',$cd_funcionario);
-			$seleciona_dados->bindValue(':senha',$senha);
-			$seleciona_dados->bindValue(':senha_nova',$senha_nova);
-			$seleciona_dados->bindValue(':confirmar_senha',$confirmar_senha);
-			// Executa a operação
-			$seleciona_dados->execute();
-			// Retorna uma matriz contendo todas as linhas do conjunto de resultados
-			$linhas = $seleciona_dados->fetchAll(PDO::FETCH_ASSOC);
-			print_r($linhas); // Retorna Array () no navegador
-			$senha_mysql = $linhas[0]['senha'];
+			//$selecao = $conexao->query("SELECT senha FROM funcionario WHERE senha = '$cd_funcionario'");
+			// Query que seleciona chave e nome do funcionário
+			$sele = $conexao->prepare("SELECT  *FROM funcionario where cd_funcionario = '$cd_funcionario' ");
+			$sele->execute();
+			$linha = $sele->fetch(PDO::FETCH_ASSOC);			
+			$senha_mysql=$linha['senha'];
 
 			try {
 				// Se a $senha_atual for diferente de $senha_mysql e a $senha_nova for diferente de $confirmar_senha
@@ -125,9 +117,10 @@
 						echo "Senha inválida, tente novamente";
 				// Senão
 				}else{
-					if ($update = "UPDATE funcionario SET senha = '$confirmar_senha' WHERE cd_funcionario = '$cd_funcionario'") {
-           				echo "Senha atualizada com sucesso!";
-            		}
+					$update = $conexao->prepare("UPDATE funcionario SET senha = '$confirmar_senha' WHERE cd_funcionario = '$cd_funcionario'"); 
+					$update->execute();
+					echo "Senha atualizada com sucesso!";
+            		
 				}	
 			} catch (PDOException $falha_alteracao) {
 				echo "A alteração da senha não foi feita".$falha_alteracao->getMessage();
